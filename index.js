@@ -1,7 +1,7 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
-const html = `<!doctype html>
+const html = (name, location, bio, linkedIn, gitHubUrl) => {`<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -11,60 +11,69 @@ const html = `<!doctype html>
   </head>
   <body>
     <div>${name}</div>
-    <div>location</div>
-    <div>bio</div>
-    <div>linkedIn</div>
-    <div>gitHubUrl</div>
+    <div>${location}</div>
+    <div>${bio}</div>
+    <div>${linkedIn}</div>
+    <div>${gitHubUrl}</div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>`
+} 
 
-inquirer
-  .prompt([
-    {
-      type: 'input',
-      message: 'What is your name?',
-      name: 'name',
-    },
-    {
-      type: 'input',
-      message: 'Where do you live?',
-      name: 'location',
-    },
-    {
-      type: 'input',
-      message: 'Tell us about yourself:',
-      name: 'bio',
-    },
 
-    {
+const showNumInConsole = function(num){
+  console.log(num);
+}
+
+const arrowShowNumConsole = (num) => {
+  console.log(num);
+}
+
+  const getUserAnswers = () => {
+    return inquirer
+    .prompt([
+      {
         type: 'input',
-        message: 'Paste your LinkedIn URL:',
-        name: 'linkedIn',
+        message: 'What is your name?',
+        name: 'name',
       },
       {
         type: 'input',
-        message: 'Paste your GitHub URL:',
-        name: 'githubUrl',
+        message: 'Where do you live?',
+        name: 'location',
       },
-  ])
-    
+      {
+        type: 'input',
+        message: 'Tell us about yourself:',
+        name: 'bio',
+      },
+  
+      {
+          type: 'input',
+          message: 'Paste your LinkedIn URL:',
+          name: 'linkedIn',
+        },
+        {
+          type: 'input',
+          message: 'Paste your GitHub URL:',
+          name: 'githubUrl',
+        },
+    ])
+  }
 
-//   const getUserAnswers = () => {
-//     return inquirer.prompt({"some codey stuff"})
-//   }
+  const otherFunctionThatCompletesThings = () => {
+    let generatHtml = getUserAnswers()
+                      .then((answers) => html(answers) );
+    fs.writeFile('index.html', generatHtml, (err) =>
+          err ? console.log(err) : console.log('Success!'))
+  }
 
-//   const otherFunctionThatCompletesThings = () => {
-//     getUserAnswers().then((answers) => do stuff with answers)
-//   }
+otherFunctionThatCompletesThings();
+  // .then((data) => {
+  //   // const filename = `${data.name.toLowerCase().split(' ').join('')}.json`;
 
-  .then((data) => {
-    const filename = `${data.name.toLowerCase().split(' ').join('')}.json`;
-
-    fs.writeFile(filename, JSON.stringify(data, null, '\t'), (err) =>
-        err ? console.log(err) : console.log('Success!')
-    );
-    });
-
-   
+  //   fs.writeFile(filename, JSON.stringify(data, null, '\t'), (err) =>
+  //       err ? console.log(err) : console.log('Success!')
+  //   );
+  //   });
